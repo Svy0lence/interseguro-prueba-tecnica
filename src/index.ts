@@ -4,7 +4,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { matrixRoutes } from './routes/matrix.routes';
 import { statsRoutes } from './routes/stats.routes';
+import { userRoutes } from './routes/user.routes';
 import { errorHandler, notFoundHandler } from './middlewares/error.middleware';
+import { authMiddleware } from './middlewares/auth.middleware';
+import { connectDatabase } from './config/database';
 
 dotenv.config();
 
@@ -12,23 +15,24 @@ const app = express();
 const port = process.env.PORT || 3000;
 const API_PREFIX = '/api/v1';
 
-// Middleware
+connectDatabase();
+
 app.use(cors());
 app.use(express.json());
 
-// Routes con prefijo global
-app.use(`${API_PREFIX}/matrix`, matrixRoutes);
-app.use(`${API_PREFIX}/stats`, statsRoutes);
-
-// Health check
+// Rutas públicas
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
 
-// Manejador de rutas no encontradas (debe ir después de todas las rutas)
-app.use(notFoundHandler);
+// Rutas de autenticación
+app.use(`${API_PREFIX}/auth`, userRoutes);
 
-// Manejador de errores (debe ir al final)
+// Rutas protegidas
+app.use(`${API_PREFIX}/matrix`, authMiddleware, matrixRoutes);
+app.use(`${API_PREFIX}/stats`, authMiddleware, statsRoutes);
+
+app.use(notFoundHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {

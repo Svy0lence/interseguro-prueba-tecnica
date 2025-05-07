@@ -1,6 +1,5 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 
-// Validador personalizado para verificar que la matriz sea estrictamente rectangular
 export function IsStrictlyRectangularMatrix(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
@@ -18,10 +17,8 @@ export function IsStrictlyRectangularMatrix(validationOptions?: ValidationOption
 
           const numCols = value[0].length;
 
-          // Rechazar si es cuadrada
           if (numRows === numCols) return false;
 
-          // Validar estructura rectangular
           return value.every(
             row => Array.isArray(row) && row.length === numCols,
           );
