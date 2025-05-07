@@ -4,7 +4,25 @@ services:
   api-interseguro:
     build: .
     ports:
-      - "3000:3000"
-    environment:
-      - PORT=3000
+      - "3001:3001"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
     restart: always
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+    restart: always
+
+volumes:
+  mongodb_data:
