@@ -10,9 +10,11 @@ services:
     depends_on:
       - mongodb
     restart: always
+    networks:
+      - backend
 
   mongodb:
-    image: mongo:latest
+    image: mongo:4.4
     ports:
       - "27017:27017"
     env_file:
@@ -23,6 +25,11 @@ services:
     volumes:
       - mongodb_data:/data/db
     restart: always
+    networks:
+      - backend
 
 volumes:
   mongodb_data:
+
+networks:
+  backend:
