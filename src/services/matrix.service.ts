@@ -23,8 +23,11 @@ export class MatrixService {
                 }
             });
         } catch (error) {
-        console.log(error)
-        next(new HttpException(500, 'Error al procesar la matriz'));
+            if(error instanceof HttpException) {
+              next(error);
+            }else {
+              next(new HttpException(500, 'Error al procesar la matriz'));
+            }
         }
     }
 } 

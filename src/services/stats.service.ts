@@ -28,8 +28,11 @@ export class StatsService {
         data: stats
       });
     } catch (error) {
-      console.log(error)
-      next(new HttpException(500, 'Error al procesar las estadísticas'));
+      if(error instanceof HttpException) {
+        next(error);
+      }else {
+        next(new HttpException(500, 'Error al procesar la matriz'));
+      }
     }
   }
 
