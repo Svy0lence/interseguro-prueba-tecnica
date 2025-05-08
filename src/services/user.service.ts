@@ -26,14 +26,14 @@ export class UserService {
 
       const token = AuthService.generateToken(user?.id);
 
-      return {
+      return res.status(201).json({
         token,
         user: {
           id: user.id,
           email: user.email,
           name: user.name
         }
-      };
+      });
     } catch (error) {
       if(error instanceof HttpException) {
         next(error);
@@ -44,7 +44,6 @@ export class UserService {
   }
 
   static async login(req: Request, res: Response, next: NextFunction) {
-
     try {
       const {email, password}: LoginDto = req.body
       

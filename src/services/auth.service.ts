@@ -5,6 +5,7 @@ import { HttpException } from '../middlewares/error.middleware';
 export class AuthService {
   private static readonly JWT_SECRET = process.env.JWT_SECRET || 'tu_secreto_jwt';
   private static readonly JWT_EXPIRES_IN = '24h';
+  private static readonly SALT_ROUNDS = 8;
 
   static generateToken(userId: string): string {
     const payload = {
@@ -15,7 +16,7 @@ export class AuthService {
   }
 
   static async hashPassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(this.SALT_ROUNDS);
     return bcrypt.hash(password, salt);
   }
 
