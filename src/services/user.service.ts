@@ -2,7 +2,7 @@ import { User, IUser } from '../models/user.model';
 import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto } from '../dtos/user.dto';
 import { Request, Response, NextFunction } from 'express';
-import { HttpException } from '@/middlewares/error.middleware';
+import { HttpException } from '../middlewares/error.middleware';
 
 export class UserService {
   static async register(req: Request, res: Response, next: NextFunction) {
