@@ -50,12 +50,12 @@ export class UserService {
       
       const user = await User.findOne({ email });
       if (!user) {
-        throw new Error('Credenciales inválidas');
+        throw new HttpException(401, 'Credenciales inválidas');
       }
 
       const isValidPassword = await AuthService.comparePasswords(password, user?.password);
       if (!isValidPassword) {
-        throw new Error('Credenciales inválidas');
+        throw new HttpException(401, 'Credenciales inválidas');
       }
 
       const token = AuthService.generateToken(user.id);
