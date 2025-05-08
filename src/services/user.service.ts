@@ -38,7 +38,7 @@ export class UserService {
       if(error instanceof HttpException) {
         next(error);
       }else {
-        next(new HttpException(500, 'Error al autenticar al usuario'));
+        next(new HttpException(500, 'Error al registrar al usuario'));
       }
     }
   }
@@ -72,7 +72,7 @@ export class UserService {
       if(error instanceof HttpException) {
         next(error);
       }else {
-        next(new HttpException(500, 'Error registrar al usuario'));
+        next(new HttpException(500, 'Error autenticar al usuario'));
       }
     }
   }
