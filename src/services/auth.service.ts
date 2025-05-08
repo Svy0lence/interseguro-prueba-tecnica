@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { HttpException } from '../middlewares/error.middleware';
 
 export class AuthService {
   private static readonly JWT_SECRET = process.env.JWT_SECRET || 'tu_secreto_jwt';
@@ -26,7 +27,7 @@ export class AuthService {
     try {
       return jwt.verify(token, this.JWT_SECRET);
     } catch (error) {
-      throw new Error('Token inválido');
+      throw new HttpException(401, 'Token inválido');
     }
   }
 } 

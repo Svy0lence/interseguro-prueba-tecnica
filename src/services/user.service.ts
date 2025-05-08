@@ -11,7 +11,7 @@ export class UserService {
 
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        throw new Error('El usuario ya existe');
+        throw new HttpException(401, 'El usuario ya existe');
       }
 
       const hashedPassword = await AuthService.hashPassword(password);
